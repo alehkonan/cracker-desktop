@@ -4,3 +4,40 @@ version = "0.1.0"
 edition = "2024"
 rust-version = "1.99"
 publish = false
+description = "A local-first personal finance tracker for macOS, built with GPUI"
+
+[features]
+default = ["gui"]
+gui = ["dep:gpui-kit", "dep:directories", "dep:tracing", "dep:tracing-subscriber"]
+
+[[bin]]
+name = "cracker-desktop"
+path = "src/main.rs"
+required-features = ["gui"]
+
+[dependencies]
+anyhow = "1"
+thiserror = "2"
+rusqlite = { version = "0.37", features = ["bundled"] }
+uuid = { version = "1", features = ["v4"] }
+time = { version = "0.3", features = ["formatting", "parsing", "macros", "local-offset"] }
+# The facade pins a compatible GPUI snapshot and component library together.
+gpui-kit = { version = "=0.7.1", optional = true }
+directories = { version = "6", optional = true }
+tracing = { version = "0.1", optional = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter"], optional = true }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+unwrap_used = "warn"
+expect_used = "warn"
+
+[profile.dev]
+debug = 1
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "debuginfo"
