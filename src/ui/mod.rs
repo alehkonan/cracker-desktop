@@ -5,6 +5,10 @@ mod category_actions;
 mod category_delete;
 mod category_form;
 mod category_palette;
+mod transaction_actions;
+mod transaction_delete;
+mod transaction_form;
+mod transactions;
 
 use account_form::{AccountForm, SaveAccount};
 use cracker_desktop::{Account, Snapshot, Storage};
@@ -67,7 +71,7 @@ impl TrackerApp {
             _storage: storage,
             snapshot,
             database_path,
-            section: Section::Accounts,
+            section: Section::Transactions,
         }
     }
 
@@ -181,7 +185,7 @@ impl Render for TrackerApp {
         } else if self.section == Section::Categories {
             categories::categories_panel(&self.snapshot, cx).into_any_element()
         } else {
-            div().child("No transactions yet.").into_any_element()
+            transactions::transactions_panel(&self.snapshot, cx).into_any_element()
         };
         let theme = cx.theme();
         let panel = div()
