@@ -7,6 +7,7 @@ After modifying Rust code:
 5. Fix all errors before considering the task complete.
 
 Prefer idiomatic Rust.
+Use named module files (e.g. `src/ui.rs` with child modules in `src/ui/`) instead of `mod.rs` files.
 Avoid unnecessary clones.
 Avoid unwrap/expect in production code unless explicitly justified.
 Do not introduce dependencies when the standard library or an existing dependency is sufficient.
